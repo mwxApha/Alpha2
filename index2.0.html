@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ficha Interativa - Rolo por Sapatos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+      color: #f0f0f0;
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(30, 30, 50, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      border: 1px solid #4a4a8a;
+    }
+    
+    header {
+      background: linear-gradient(to right, #0c2461, #1e3799);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #ff9f43;
+      position: relative;
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      color: #fff;
+    }
+    
+    header p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      color: #e0e0ff;
+    }
+    
+    .system-info {
+      background: rgba(10, 15, 40, 0.7);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: inline-block;
+      border: 1px solid #4a69bd;
+    }
+    
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    
+    @media (max-width: 900px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .section {
+      background: rgba(40, 40, 70, 0.7);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #546de5;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .section h2 {
+      color: #ff9f43;
+      border-bottom: 2px solid #ff9f43;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #a0a0ff;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #546de5;
+      background: rgba(20, 25, 60, 0.8);
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #ff9f43;
+      box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.3);
+      background: rgba(30, 35, 70, 0.9);
+    }
+    
+    button {
+      background: linear-gradient(to right, #ff9f43, #ff6b6b);
+      color: #1a1a2e;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: all 0.3s;
+      margin-top: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #ffaf53, #ff7b7b);
+    }
+    
+    button:active {
+      transform: translateY(1px);
+    }
+    
+    .trees-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .tree {
+      background: rgba(30, 35, 70, 0.7);
+      border-radius: 10px;
+      padding: 15px;
+      border: 1px solid #4a69bd;
+    }
+    
+    .tree h3 {
+      color: #ff9f43;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .tree-levels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    
+    .tree-level {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .tree-level label {
+      font-size: 0.9rem;
+      color: #a0a0ff;
+      margin-bottom: 5px;
+    }
+    
+    .equipment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .equipment-item {
+      background: rgba(30, 35, 70, 0.7);
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #4a69bd;
+    }
+    
+    .equipment-item h4 {
+      color: #ff9f43;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .dice-badge {
+      background: #ff9f43;
+      color: #1a1a2e;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    
+    .conditions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .condition-item {
+      background: rgba(30, 35, 70, 0.7);
+      border-radius: 8px;
+      padding: 15px;
+      border: 1px solid #4a69bd;
+      text-align: center;
+    }
+    
+    .condition-item h4 {
+      color: #ff9f43;
+      margin-bottom: 10px;
+    }
+    
+    .footer-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      background: rgba(20, 25, 60, 0.8);
+      border-top: 2px solid #546de5;
+    }
+    
+    .footer-buttons button {
+      min-width: 150px;
+      font-size: 1.1rem;
+      padding: 15px 25px;
+    }
+    
+    .save-btn {
+      background: linear-gradient(to right, #1dd1a1, #10ac84);
+    }
+    
+    .clear-btn {
+      background: linear-gradient(to right, #ff6b6b, #ee5253);
+    }
+    
+    .dice-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #ff9f43;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 20px;
+      font-weight: bold;
+      margin: 0 2px;
+      color: #1a1a2e;
+    }
+    
+    .xp-counter {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 159, 67, 0.2);
+      border: 2px solid #ff9f43;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .xp-counter span:first-child {
+      font-size: 0.9rem;
+      color: #ff9f43;
+    }
+    
+    .xp-counter span:last-child {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="xp-counter">
+        <span>XP</span>
+        <span id="xp-value">0</span>
+      </div>
+      <h1>Ficha de Personagem - Rolo por Sapatos</h1>
+      <p>Sistema de RPG Isekai com Foco no Número 6</p>
+      <div class="system-info">
+        Personagens transportados para um mundo paralelo com status em tempo real
+      </div>
+    </header>
+    
+    <div class="content">
+      <div class="column">
+        <div class="section">
+          <h2>Status Básico</h2>
+          <div class="form-group">
+            <label for="char-name">Nome do Personagem</label>
+            <input type="text" id="char-name" placeholder="Ex: Akira, o Viajante Dimensional">
+          </div>
+          
+          <div class="form-group">
+            <label for="char-concept">Conceito / Raça</label>
+            <input type="text" id="char-concept" placeholder="Ex: Guerreiro Dimensional / Humano">
+          </div>
+          
+          <div class="form-group">
+            <label for="char-hp">Pontos de Vida (PV)</label>
+            <input type="number" id="char-hp" min="0" value="6">
+          </div>
+          
+          <div class="form-group">
+            <label for="char-luck">Pontos de Sorte</label>
+            <input type="number" id="char-luck" min="0" value="6">
+          </div>
+          
+          <div class="form-group">
+            <label for="char-xp">Pontos de Experiência (XP)</label>
+            <input type="number" id="char-xp" min="0" value="0">
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>Árvores de Habilidade <button onclick="addTree()">+ Nova Árvore</button></h2>
+          <div class="trees-container" id="trees-container">
+            <!-- Árvores serão adicionadas dinamicamente aqui -->
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>Equipamentos</h2>
+          <div class="equipment-grid" id="equipment-container">
+            <!-- Equipamentos serão adicionados dinamicamente aqui -->
+          </div>
+          <button onclick="addEquipment()">+ Adicionar Equipamento</button>
+        </div>
+      </div>
+      
+      <div class="column">
+        <div class="section">
+          <h2>Condições Temporárias</h2>
+          <div class="conditions-grid" id="conditions-container">
+            <!-- Condições serão adicionadas dinamicamente aqui -->
+          </div>
+          <button onclick="addCondition()">+ Adicionar Condição</button>
+        </div>
+        
+        <div class="section">
+          <h2>Itens de Ataque</h2>
+          <div class="equipment-grid">
+            <div class="equipment-item">
+              <h4>Espada Curta de Ferro <span class="dice-badge">+1 <span class="dice-icon">6</span></span></h4>
+              <p>Espada simples de ferro, leve e confiável</p>
+              <p><strong>Custo:</strong> 5 XP</p>
+            </div>
+            <div class="equipment-item">
+              <h4>Katana Encantada <span class="dice-badge">+3 <span class="dice-icon">6</span></span></h4>
+              <p>Katana com bônus mágico em cortes rápidos</p>
+              <p><strong>Custo:</strong> 25 XP</p>
+            </div>
+            <div class="equipment-item">
+              <h4>Martelo Titanesco <span class="dice-badge">+4 <span class="dice-icon">6</span></span></h4>
+              <p>Martelo enorme que causa tremores no impacto</p>
+              <p><strong>Custo:</strong> 40 XP</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>Itens de Defesa</h2>
+          <div class="equipment-grid">
+            <div class="equipment-item">
+              <h4>Escudo de Madeira <span class="dice-badge">+1 <span class="dice-icon">6</span></span></h4>
+              <p>Escudo básico de madeira para bloqueio</p>
+              <p><strong>Custo:</strong> 5 XP</p>
+            </div>
+            <div class="equipment-item">
+              <h4>Armadura de Titânio <span class="dice-badge">+4 <span class="dice-icon">6</span></span></h4>
+              <p>Armadura leve e extremamente resistente</p>
+              <p><strong>Custo:</strong> 40 XP</p>
+            </div>
+            <div class="equipment-item">
+              <h4>Couraça de Adamantium <span class="dice-badge">+5 <span class="dice-icon">6</span></span></h4>
+              <p>Metal lendário que absorve impactos</p>
+              <p><strong>Custo:</strong> 60 XP</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>Notas Gerais</h2>
+          <textarea id="general-notes" rows="6" placeholder="Anotações sobre a história do personagem, objetivos, eventos importantes..."></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-buttons">
+      <button class="save-btn" onclick="saveCharacter()">💾 Salvar Personagem</button>
+      <button class="clear-btn" onclick="clearCharacter()">🗑 Limpar Ficha</button>
+    </div>
+  </div>
+
+  <script>
+    // Árvores de habilidade
+function addTree(name = '', category = 'ataque') {
+  const container = document.getElementById('trees-container');
+  if (container.children.length >= 6) {
+    alert('Limite de 6 árvores alcançado!');
+    return;
+  }
+
+  const treeId = `tree-${Date.now()}`;
+  const treeElement = document.createElement('div');
+  treeElement.className = 'tree';
+  treeElement.id = treeId;
+
+  treeElement.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3>Árvore de Habilidade</h3>
+      <button onclick="document.getElementById('${treeId}').remove()">Remover</button>
+    </div>
+    <div class="form-group">
+      <label>Nome da Árvore</label>
+      <input type="text" value="${name}" placeholder="Ex: Magia do Fogo">
+    </div>
+    <div class="form-group">
+      <label>Categoria</label>
+      <select>
+        <option value="ataque" ${category === 'ataque' ? 'selected' : ''}>Ataque</option>
+        <option value="defesa" ${category === 'defesa' ? 'selected' : ''}>Defesa</option>
+        <option value="suporte" ${category === 'suporte' ? 'selected' : ''}>Suporte</option>
+      </select>
+    </div>
+    <div class="tree-levels">
+      ${Array.from({ length: 6 }, (_, i) => i + 1).map(level => `
+        <div class="tree-level">
+          <label>Nível ${level}</label>
+          <input type="text" placeholder="Habilidade nível ${level}">
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  container.appendChild(treeElement);
+}
+
+function addEquipment(name = '', tier = '1', effect = '') {
+  const container = document.getElementById('equipment-container');
+  const equipmentId = `equipment-${Date.now()}`;
+  const equipmentElement = document.createElement('div');
+  equipmentElement.className = 'equipment-item';
+  equipmentElement.id = equipmentId;
+
+  equipmentElement.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h4>Equipamento</h4>
+      <button onclick="document.getElementById('${equipmentId}').remove()">Remover</button>
+    </div>
+    <div class="form-group">
+      <label>Nome do Item</label>
+      <input type="text" value="${name}" placeholder="Ex: Espada Flamejante">
+    </div>
+    <div class="form-group">
+      <label>Tier</label>
+      <select>
+        <option value="1" ${tier === '1' ? 'selected' : ''}>1</option>
+        <option value="2" ${tier === '2' ? 'selected' : ''}>2</option>
+        <option value="3" ${tier === '3' ? 'selected' : ''}>3</option>
+        <option value="4" ${tier === '4' ? 'selected' : ''}>4</option>
+        <option value="5" ${tier === '5' ? 'selected' : ''}>5</option>
+        <option value="6" ${tier === '6' ? 'selected' : ''}>6</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Efeito</label>
+      <textarea placeholder="Descrição do efeito">${effect}</textarea>
+    </div>
+  `;
+
+  container.appendChild(equipmentElement);
+}
+    
+    // Condições temporárias
+function addCondition(name = '', duration = '') {
+  const container = document.getElementById('conditions-container');
+  const conditionId = `condition-${Date.now()}`; // Corrigido aqui: template string
+
+  const conditionElement = document.createElement('div');
+  conditionElement.className = 'condition-item';
+  conditionElement.id = conditionId;
+
+  conditionElement.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h4>Condição</h4>
+      <button onclick="document.getElementById('${conditionId}').remove()">Remover</button>
+    </div>
+    <div class="form-group">
+      <label>Nome</label>
+      <input type="text" value="${name}" placeholder="Ex: Atordoado">
+    </div>
+    <div class="form-group">
+      <label>Duração</label>
+      <input type="text" value="${duration}" placeholder="Ex: 1 rodada">
+    </div>
+  `;
+
+  container.appendChild(conditionElement);
+}
+    
+    // Atualiza contador de XP
+    function updateXP() {
+      const xpInput = document.getElementById('char-xp');
+      const xpValue = document.getElementById('xp-value');
+      if (xpInput && xpValue) {
+        xpValue.textContent = xpInput.value;
+      }
+    }
+    
+    // Salvar personagem
+    function saveCharacter() {
+      alert('Personagem salvo com sucesso!');
+      // Aqui seria a implementação para salvar no localStorage
+    }
+    
+    // Limpar ficha
+    function clearCharacter() {
+      if (confirm('Tem certeza que deseja limpar toda a ficha?')) {
+        document.getElementById('char-name').value = '';
+        document.getElementById('char-concept').value = '';
+        document.getElementById('char-hp').value = '6';
+        document.getElementById('char-luck').value = '6';
+        document.getElementById('char-xp').value = '0';
+        document.getElementById('general-notes').value = '';
+        
+        document.getElementById('trees-container').innerHTML = '';
+        document.getElementById('equipment-container').innerHTML = '';
+        document.getElementById('conditions-container').innerHTML = '';
+        
+        updateXP();
+        alert('Ficha limpa com sucesso!');
+      }
+    }
+    
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      // Adiciona alguns elementos iniciais
+      addTree('Magia Elemental', 'ataque');
+      addTree('Defesa Arcana', 'defesa');
+      addEquipment('Espada de Aço', '1', 'Bônus básico de ataque');
+      addEquipment('Escudo de Bronze', '2', 'Resistência à magia');
+      addCondition('Atordoado', 'Próxima rodada');
+      addCondition('Inspirado', 'Próximo combate');
+      
+      // Atualiza contador de XP
+      document.getElementById('char-xp').addEventListener('input', updateXP);
+      updateXP();
+    });
+  </script>
+</body>
+</html>
